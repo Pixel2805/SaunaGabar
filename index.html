@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sauna GABAR – Hîncești</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #eae6e0;
+    --bg2: #ddd8d0;
+    --text: #1a1814;
+    --muted: #6e6a65;
+    --accent: #c17f3e;
+    --line: #ccc7be;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 3rem;
+    height: 60px;
+  }
+  .nav-logo {
+    font-size: 1rem; font-weight: 700; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--text);
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: .78rem; letter-spacing: .05em;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 8rem 3rem 5rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero-inner { max-width: 680px; }
+  .hero-tag {
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.5rem;
+  }
+  .hero-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700; line-height: 1;
+    letter-spacing: -.02em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+  .hero-desc {
+    font-size: 1rem; color: var(--muted);
+    max-width: 420px; margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: .75rem 2rem;
+    background: var(--text);
+    color: var(--bg);
+    text-decoration: none;
+    font-size: .78rem; letter-spacing: .08em;
+    font-family: Arial, sans-serif;
+    border: 1px solid var(--text);
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .btn:hover { opacity: .75; }
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { border-color: var(--text); opacity: 1; }
+  .hero-rating {
+    display: flex; align-items: center; gap: .6rem;
+    font-size: .78rem; color: var(--muted);
+    margin-top: 2.5rem;
+  }
+  .stars { color: var(--accent); }
+
+  /* SECTIONS */
+  section { padding: 6rem 3rem; border-bottom: 1px solid var(--line); }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .section-label {
+    font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: .8rem;
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 700; line-height: 1.15;
+    letter-spacing: -.01em; color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ABOUT */
+  .about { background: var(--bg2); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about p { color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+  .stats { display: flex; gap: 3rem; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .stat-num { font-size: 2.2rem; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-label { font-size: .72rem; color: var(--muted); margin-top: .2rem; }
+  .about-box {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    height: 380px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center; gap: 1rem;
+  }
+  .about-box-icon { font-size: 3rem; }
+  .about-box-name { font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: .82rem; }
+  .about-box-sub { font-size: .72rem; color: var(--muted); }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line);
+    margin-top: 3rem;
+  }
+  .service-card {
+    background: var(--bg); padding: 2rem 1.8rem;
+    transition: background .2s;
+  }
+  .service-card:hover { background: var(--bg2); }
+  .service-icon { font-size: 1.5rem; margin-bottom: .9rem; display: block; }
+  .service-card h3 { font-size: .88rem; font-weight: 700; margin-bottom: .4rem; }
+  .service-card p { font-size: .78rem; color: var(--muted); line-height: 1.7; }
+
+  /* SCHEDULE */
+  .schedule { background: var(--bg2); }
+  .schedule-list { margin-top: 2rem; }
+  .schedule-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: .85rem;
+  }
+  .schedule-row:first-child { border-top: 1px solid var(--line); }
+  .schedule-day { color: var(--text); }
+  .schedule-time { color: var(--muted); }
+  .badge {
+    font-size: .62rem; letter-spacing: .1em; text-transform: uppercase;
+    background: #eef7ee; color: #3a7a3a;
+    padding: .22rem .65rem;
+  }
+
+  /* REVIEWS */
+  .reviews-summary {
+    display: flex; align-items: baseline; gap: .8rem;
+    margin-bottom: 3rem;
+  }
+  .big-num { font-size: 3.5rem; font-weight: 700; line-height: 1; }
+  .reviews-meta { font-size: .78rem; color: var(--muted); }
+  .reviews-meta .stars { font-size: .9rem; display: block; margin-bottom: .2rem; }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .review-card {
+    padding: 1.8rem;
+    background: var(--bg2);
+    border: 1px solid var(--line);
+  }
+  .reviewer { font-size: .8rem; font-weight: 700; margin-bottom: .3rem; }
+  .review-stars { color: var(--accent); font-size: .8rem; margin-bottom: .8rem; }
+  .review-text { font-size: .8rem; color: var(--muted); line-height: 1.75; }
+  .review-date { font-size: .68rem; color: #bbb; margin-top: .8rem; }
+
+  /* CONTACT */
+  .contact { background: var(--bg2); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .info-row {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.1rem 0; border-bottom: 1px solid var(--line);
+  }
+  .info-row:first-of-type { border-top: 1px solid var(--line); }
+  .info-icon { font-size: 1rem; flex-shrink: 0; margin-top: .1rem; }
+  .info-label { font-size: .63rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .2rem; }
+  .info-val { font-size: .83rem; color: var(--text); line-height: 1.65; }
+  .info-val a { color: var(--text); text-decoration: none; }
+  .info-val a:hover { color: var(--accent); }
+
+  .form-group { margin-bottom: 1.1rem; }
+  .form-group label { display: block; font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+  .form-group input,
+  .form-group textarea {
+    width: 100%; padding: .72rem 1rem;
+    background: var(--bg); border: 1px solid var(--line);
+    color: var(--text); font-family: Arial, sans-serif;
+    font-size: .83rem; outline: none;
+    transition: border-color .2s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--text); }
+  .form-group textarea { height: 110px; resize: none; }
+  .btn-full { width: 100%; padding: .85rem; }
+
+  /* MAP BAR */
+  .map-bar {
+    background: var(--text); color: var(--bg);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 2rem 3rem;
+  }
+  .map-bar-name { font-weight: 700; letter-spacing: .1em; font-size: .85rem; margin-bottom: .25rem; }
+  .map-bar-address { font-size: .8rem; opacity: .55; }
+  .map-link {
+    color: var(--bg); text-decoration: none;
+    font-size: .72rem; letter-spacing: .08em;
+    border: 1px solid rgba(255,255,255,.25); padding: .55rem 1.3rem;
+    transition: background .2s; white-space: nowrap;
+  }
+  .map-link:hover { background: rgba(255,255,255,.1); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--bg); border-top: 1px solid var(--line);
+  }
+  .footer-logo { font-weight: 700; letter-spacing: .15em; font-size: .85rem; }
+  footer p { font-size: .72rem; color: var(--muted); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    section, .hero { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .services-grid, .reviews-grid { grid-template-columns: 1fr; }
+    .about-box { height: 200px; }
+    .map-bar { flex-direction: column; gap: 1rem; text-align: center; }
+    footer { flex-direction: column; gap: .5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">GABAR</div>
+  <ul class="nav-links">
+    <li><a href="#despre">Despre</a></li>
+    <li><a href="#servicii">Servicii</a></li>
+    <li><a href="#program">Program</a></li>
+    <li><a href="#recenzii">Recenzii</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <p class="hero-tag">Hîncești · Moldova</p>
+    <h1 class="hero-title">Sauna<br>GABAR</h1>
+    <p class="hero-desc">Relaxare autentică, deschisă nonstop. Vino oricând ai nevoie de o pauză adevărată.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn">Rezervă acum</a>
+      <a href="tel:+373602060260" class="btn btn-ghost">+373 602 60 260</a>
+    </div>
+    <div class="hero-rating">
+      <span class="stars">★★★★☆</span>
+      <span>4.4 · 7 recenzii Google</span>
+    </div>
+  </div>
+</div>
+
+<section class="about" id="despre">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <p class="section-label">Despre noi</p>
+        <h2 class="section-title">O saună pentru relaxare adevărată</h2>
+        <p>Sauna GABAR se află pe Strada Chișinăului din Hîncești și este deschisă non-stop pentru toți cei care caută liniște și regenerare.</p>
+        <p>Un loc cald, curat și primitor – indiferent de zi sau oră.</p>
+        <div class="stats">
+          <div><div class="stat-num">4.4</div><div class="stat-label">Rating Google</div></div>
+          <div><div class="stat-num">24/7</div><div class="stat-label">Program</div></div>
+          <div><div class="stat-num">7</div><div class="stat-label">Recenzii</div></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="about-box">
+          <div class="about-box-icon">🔥</div>
+          <div class="about-box-name">Sauna GABAR</div>
+          <div class="about-box-sub">Hîncești, Moldova</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="servicii">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Ce oferim</p>
+      <h2 class="section-title">Servicii</h2>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card"><span class="service-icon">🌡️</span><h3>Saună Clasică</h3><p>Abur uscat la temperaturi ridicate pentru detoxifierea completă a corpului.</p></div>
+      <div class="service-card"><span class="service-icon">💧</span><h3>Răcire & Bazin</h3><p>Trecerea de la cald la rece stimulează circulația și amplifică efectele saunei.</p></div>
+      <div class="service-card"><span class="service-icon">🌿</span><h3>Zonă de Relaxare</h3><p>Spații confortabile pentru odihnă între runde sau după sesiune.</p></div>
+      <div class="service-card"><span class="service-icon">🏠</span><h3>Spațiu Privat</h3><p>Rezervare exclusivă pentru grupuri, petreceri sau teambuilding.</p></div>
+      <div class="service-card"><span class="service-icon">⏰</span><h3>Nonstop</h3><p>Deschis 24h din 24, 7 zile din 7. Vino oricând simți nevoia.</p></div>
+      <div class="service-card"><span class="service-icon">📍</span><h3>Localizare Bună</h3><p>Ușor accesibil pe Strada Chișinăului, în Hîncești.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="schedule" id="program">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Orar</p>
+      <h2 class="section-title">Program</h2>
+    </div>
+    <div class="schedule-list reveal">
+      <div class="schedule-row"><span class="schedule-day">Luni</span><span class="schedule-time">00:00 – 24:00</span><span class="badge">Deschis</span></div>
+      <div class="schedule-row"><span class="schedule-day">Marți</span><span class="schedule-time">00:00 – 24:00</span><span class="badge">Deschis</span></div>
+      <div class="schedule-row"><span class="schedule-day">Miercuri</span><span class="schedule-time">00:00 – 24:00</span><span class="badge">Deschis</span></div>
+      <div class="schedule-row"><span class="schedule-day">Joi</span><span class="schedule-time">00:00 – 24:00</span><span class="badge">Deschis</span></div>
+      <div class="schedule-row"><span class="schedule-day">Vineri</span><span class="schedule-time">00:00 – 24:00</span><span class="badge">Deschis</span></div>
+      <div class="schedule-row"><span class="schedule-day">Sâmbătă</span><span class="schedule-time">00:00 – 24:00</span><span class="badge">Deschis</span></div>
+      <div class="schedule-row"><span class="schedule-day">Duminică</span><span class="schedule-time">00:00 – 24:00</span><span class="badge">Deschis</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="recenzii">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">Recenzii</p>
+      <h2 class="section-title">Ce spun clienții</h2>
+      <div class="reviews-summary">
+        <div class="big-num">4.4</div>
+        <div class="reviews-meta">
+          <span class="stars">★★★★☆</span>
+          7 recenzii pe Google Maps
+        </div>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="reviewer">Serghei Calaras</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Experiență excelentă! Sauna este curată, atmosfera plăcută. Recomand cu încredere.</p>
+        <div class="review-date">Acum 3 luni</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="reviewer">TEODOR</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Locul perfect pentru relaxare. Am vizitat de mai multe ori și de fiecare dată am plecat mulțumit.</p>
+        <div class="review-date">Acum 10 luni</div>
+      </div>
+      <div class="review-card reveal">
+        <div class="reviewer">Gheorghe</div>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">Saună de calitate, personal amabil. Un loc pe care îl vei revizita cu plăcere.</p>
+        <div class="review-date">Acum un an</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">Găsește-ne</h2>
+        <div class="info-row"><span class="info-icon">📍</span><div><div class="info-label">Adresă</div><div class="info-val">Strada Chișinăului<br>Hîncești, Republica Moldova</div></div></div>
+        <div class="info-row"><span class="info-icon">📞</span><div><div class="info-label">Telefon</div><div class="info-val"><a href="tel:+373602060260">+373 602 60 260</a></div></div></div>
+        <div class="info-row"><span class="info-icon">🕐</span><div><div class="info-label">Program</div><div class="info-val">Deschis nonstop · 24/7</div></div></div>
+        <div class="info-row"><span class="info-icon">📸</span><div><div class="info-label">Instagram</div><div class="info-val"><a href="https://instagram.com" target="_blank">instagram.com</a></div></div></div>
+      </div>
+      <div class="reveal">
+        <p class="section-label">Rezervare</p>
+        <h2 class="section-title">Scrie-ne</h2>
+        <div class="form-group"><label>Nume</label><input type="text" placeholder="Numele tău"></div>
+        <div class="form-group"><label>Telefon</label><input type="tel" placeholder="+373 __ __ ___"></div>
+        <div class="form-group"><label>Mesaj</label><textarea placeholder="Doresc să rezerv pentru..."></textarea></div>
+        <button class="btn btn-full" onclick="this.textContent='Trimis ✓'; this.style.opacity='.5'; this.disabled=true;">Trimite</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="map-bar">
+  <div>
+    <div class="map-bar-name">SAUNA GABAR</div>
+    <div class="map-bar-address">Strada Chișinăului, Hîncești, Republica Moldova</div>
+  </div>
+  <a class="map-link" href="https://maps.google.com/?q=Sauna+GABAR+Hincesti+Moldova" target="_blank">Deschide în Maps →</a>
+</div>
+
+<footer>
+  <div class="footer-logo">GABAR</div>
+  <p>© 2026 Sauna GABAR · Hîncești, Moldova</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
