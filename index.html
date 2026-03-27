@@ -388,15 +388,16 @@
         <div class="info-row"><span class="info-icon">📍</span><div><div class="info-label">Adresă</div><div class="info-val">Strada Chișinăului<br>Hîncești, Republica Moldova</div></div></div>
         <div class="info-row"><span class="info-icon">📞</span><div><div class="info-label">Telefon</div><div class="info-val"><a href="tel:+373602060260">+373 602 60 260</a></div></div></div>
         <div class="info-row"><span class="info-icon">🕐</span><div><div class="info-label">Program</div><div class="info-val">Deschis nonstop · 24/7</div></div></div>
-        <div class="info-row"><span class="info-icon">📸</span><div><div class="info-label">Instagram</div><div class="info-val"><a href="https://instagram.com" target="_blank">instagram.com</a></div></div></div>
-      </div>
+        </div>
       <div class="reveal">
         <p class="section-label">Rezervare</p>
         <h2 class="section-title">Scrie-ne</h2>
-        <div class="form-group"><label>Nume</label><input type="text" placeholder="Numele tău"></div>
-        <div class="form-group"><label>Telefon</label><input type="tel" placeholder="+373 __ __ ___"></div>
-        <div class="form-group"><label>Mesaj</label><textarea placeholder="Doresc să rezerv pentru..."></textarea></div>
-        <button class="btn btn-full" onclick="this.textContent='Trimis ✓'; this.style.opacity='.5'; this.disabled=true;">Trimite</button>
+        <form id="reservation-form">
+          <div class="form-group"><label for="res-name">Nume</label><input id="res-name" name="name" type="text" placeholder="Numele tău" required></div>
+          <div class="form-group"><label for="res-phone">Telefon</label><input id="res-phone" name="phone" type="tel" placeholder="+373 __ __ ___" required></div>
+          <div class="form-group"><label for="res-message">Mesaj</label><textarea id="res-message" name="message" placeholder="Doresc să rezerv pentru..." required></textarea></div>
+          <button id="reservation-submit" class="btn btn-full" type="submit">Trimite</button>
+        </form>
       </div>
     </div>
   </div>
@@ -420,6 +421,49 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  const reservationForm = document.getElementById('reservation-form');
+  const reservationSubmit = document.getElementById('reservation-submit');
+  const targetViberNumber = '+37368953979';
+
+  reservationForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const name = reservationForm.elements.name.value.trim();
+    const phone = reservationForm.elements.phone.value.trim();
+    const message = reservationForm.elements.message.value.trim();
+
+    const text = [
+      'Salut! Doresc o rezervare la Sauna GABAR.',
+      'Nume: ' + name,
+      'Telefon: ' + phone,
+      'Mesaj: ' + message
+    ].join('\n');
+
+    const viberDirectUrl = 'viber://chat?number=' + encodeURIComponent(targetViberNumber) + '&text=' + encodeURIComponent(text);
+    const viberChatUrl = 'viber://chat?number=' + encodeURIComponent(targetViberNumber);
+
+    reservationSubmit.textContent = 'Se deschide Viber...';
+    reservationSubmit.disabled = true;
+
+    navigator.clipboard.writeText(text).catch(function () {
+      // Clipboard can be blocked by browser permissions; the user can still copy manually.
+    });
+
+    // Open the target chat directly. If text prefill is unsupported, keep direct chat fallback.
+    window.location.href = viberDirectUrl;
+    setTimeout(function () {
+      window.location.href = viberChatUrl;
+      reservationSubmit.textContent = 'Deschis in Viber ✓';
+      reservationSubmit.style.opacity = '.75';
+      alert('Conversatia Viber a fost deschisa direct pe numarul rezervarilor. Mesajul este copiat automat si il poti lipi imediat in chat.');
+      reservationSubmit.disabled = false;
+      setTimeout(function () {
+        reservationSubmit.textContent = 'Trimite';
+        reservationSubmit.style.opacity = '1';
+      }, 1500);
+    }, 350);
+  });
 </script>
 </body>
 </html>
