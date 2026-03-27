@@ -200,6 +200,19 @@
   .info-val a { color: var(--text); text-decoration: none; }
   .info-val a:hover { color: var(--accent); }
 
+  .contact-map {
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .contact-map iframe {
+    width: 100%;
+    height: 240px;
+    border: 0;
+    display: block;
+  }
+
   .form-group { margin-bottom: 1.1rem; }
   .form-group label { display: block; font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
   .form-group input,
@@ -275,6 +288,7 @@
     .form-group input,
     .form-group textarea,
     .btn { font-size: 16px; }
+    .contact-map iframe { height: 220px; }
     .about-box { height: 200px; }
     .map-bar { flex-direction: column; gap: 1rem; text-align: center; }
     footer { flex-direction: column; gap: .5rem; text-align: center; }
@@ -285,6 +299,7 @@
     .section-title { line-height: 1.2; }
     .schedule-day,
     .schedule-time { font-size: .8rem; }
+    .contact-map iframe { height: 200px; }
     .map-bar { padding: 1.4rem 1rem; }
     footer { padding: 1.4rem 1rem; }
   }
@@ -421,6 +436,15 @@
       <div class="reveal">
         <p class="section-label">Contact</p>
         <h2 class="section-title">Găsește-ne</h2>
+        <div class="contact-map">
+          <iframe
+            title="Harta Sauna GABAR"
+            src="https://maps.google.com/maps?q=Sauna%20GABAR%20Hincesti%20Moldova&t=&z=15&ie=UTF8&iwloc=&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+        </div>
         <div class="info-row"><span class="info-icon">📍</span><div><div class="info-label">Adresă</div><div class="info-val">Strada Chișinăului<br>Hîncești, Republica Moldova</div></div></div>
         <div class="info-row"><span class="info-icon">📞</span><div><div class="info-label">Telefon</div><div class="info-val"><a href="tel:+373602060260">+373 602 60 260</a></div></div></div>
         <div class="info-row"><span class="info-icon">🕐</span><div><div class="info-label">Program</div><div class="info-val">Deschis nonstop · 24/7</div></div></div>
